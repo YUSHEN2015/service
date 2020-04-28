@@ -218,6 +218,16 @@ func (ws *windowsService) Install() error {
 	if err != nil {
 		return err
 	}
+	if ws.RecoveryActions != nil {
+		resetPeriod := ws.ResetPeriod
+		if ws.ResetPeriod == 0 {
+			resetPeriod = uint32(100000)
+		}
+		err = s.SetRecoveryActions(ws.RecoveryActions, resetPeriod)
+		if err != nil {
+			return err
+		}
+	}
 	defer s.Close()
 	err = eventlog.InstallAsEventCreate(ws.Name, eventlog.Error|eventlog.Warning|eventlog.Info)
 	if err != nil {

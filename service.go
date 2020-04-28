@@ -64,6 +64,7 @@ package service // import "github.com/kardianos/service"
 import (
 	"errors"
 	"fmt"
+	"golang.org/x/sys/windows/svc/mgr"
 )
 
 const (
@@ -133,7 +134,9 @@ type Config struct {
 	//    - ReloadSignal  string () [USR1, ...]     - Signal to send on reaload.
 	//    - PIDFile       string () [/run/prog.pid] - Location of the PID file.
 	//    - LogOutput     bool   (false)            - Redirect StdErr & StdOut to files.
-	Option KeyValue
+	Option          KeyValue
+	RecoveryActions []mgr.RecoveryAction
+	ResetPeriod     uint32
 }
 
 var (
